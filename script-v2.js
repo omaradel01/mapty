@@ -182,6 +182,9 @@ class App {
 
     // set local storage to all workouts
     this._setLocalStorage();
+
+    if (!document.querySelector('.delete-all-workouts'))
+      this._renderDeleteAllWorkouts();
   }
 
   _renderWorkoutMarker(workout) {
@@ -317,7 +320,8 @@ class App {
     const data = JSON.parse(localStorage.getItem('workouts'));
     if (!data) return;
 
-    this._renderDeleteAllWorkouts();
+    if (!document.querySelector('.delete-all-workouts'))
+      this._renderDeleteAllWorkouts();
 
     this.#workouts = data;
 
@@ -327,6 +331,14 @@ class App {
   }
 
   _renderDeleteAllWorkouts() {
+    this._insertDeleteAllWorkoutsElement();
+
+    document
+      .querySelector('.delete-all-workouts')
+      .addEventListener('click', this._deleteAllWorkouts.bind(this));
+  }
+
+  _insertDeleteAllWorkoutsElement() {
     // prettier-ignore
     logo.insertAdjacentHTML('afterend', `
     <div class="delete-all-workouts">
@@ -335,10 +347,6 @@ class App {
       <span class="workout__icon">❌</span>
     </div>
     `)
-
-    document
-      .querySelector('.delete-all-workouts')
-      .addEventListener('click', this._deleteAllWorkouts.bind(this));
   }
 
   _deleteAllWorkouts() {
