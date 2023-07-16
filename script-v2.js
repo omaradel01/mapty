@@ -320,7 +320,10 @@ class App {
     const data = JSON.parse(localStorage.getItem('workouts'));
     if (!data) return;
 
-    if (!document.querySelector('.delete-all-workouts'))
+    if (
+      !document.querySelector('.delete-all-workouts') &&
+      this.#workouts.length !== 0
+    )
       this._renderDeleteAllWorkouts();
 
     this.#workouts = data;
